@@ -1,0 +1,58 @@
+{
+  "instanceV_name": "Customized_Data",
+  "vehicle_0": {
+    "capacity": 30.0,
+    "registration": 405567,
+    "type_vehicle": 1
+  },
+  "vehicle_1": {
+    "capacity": 40.0,
+    "registration": 405567,
+    "type_vehicle": 2
+  },
+  "vehicle_10": {
+    "capacity": 60.0,
+    "registration": 405567,
+    "type_vehicle": 574
+  },
+  "vehicle_2": {
+    "capacity": 50.0,
+    "registration": 405567,
+    "type_vehicle": 3
+  },
+  "vehicle_3": {
+    "capacity": 10.0,
+    "registration": 405567,
+    "type_vehicle": 1
+  },
+  "vehicle_4": {
+    "capacity": 20.0,
+    "registration": 405567,
+    "type_vehicle": 2
+  },
+  "vehicle_5": {
+    "capacity": 10.0,
+    "registration": 405567,
+    "type_vehicle": 3
+  },
+  "vehicle_6": {
+    "capacity": 50.0,
+    "registration": 405567,
+    "type_vehicle": 5
+  },
+  "vehicle_7": {
+    "capacity": 60.0,
+    "registration": 405567,
+    "type_vehicle": 6
+  },
+  "vehicle_8": {
+    "capacity": 30.0,
+    "registration": 405567,
+    "type_vehicle": 7
+  },
+  "vehicle_9": {
+    "capacity": 40.0,
+    "registration": 405567,
+    "type_vehicle": 9
+  }
+}

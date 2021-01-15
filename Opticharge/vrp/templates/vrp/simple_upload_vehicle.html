@@ -1,0 +1,45 @@
+{% extends "base_generic.html" %}
+{% block title %}Add Planification{% endblock %}
+{% load static %}
+
+{% block content %}
+<h1>Add list Vehicles</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <form method="post" enctype="multipart/form-data" class="btn float-right">
+                {% csrf_token %}
+                <input type="file" enctype="multipart/form-data" name="myfile" style="alignment: bottom">
+                <button type="submit" class="btn btn-info">Upload</button>
+
+            </form>
+        </div>
+        <br>
+
+        <table class="table table-striped">
+            <tr>
+                <th>Vehicle NO</th>
+                <th>Vehicle name</th>
+                <th>Registration NO</th>
+                <th>Capacity</th>
+                <th>Type Vehcile</th>
+            </tr>
+            <tr>
+                <td>{{object.id}}</td>
+                <td><a href="#" style="color:black">{{ object.date|date:"F d, Y"}}</a> </td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <form method="get">
+            {% csrf_token %}
+            <p><a href="{% url 'vehicle_to_json' %}" class="btn btn-info float-right" name="veh_convert"> Convert to Json</a>
+        </form>
+    </div>
+</div>
+{% if uploaded_file_url %}
+<p>File uploaded at: <a href="{{ uploaded_file_vehicle_url }}">{{ uploaded_file_url }}</a></p>
+{% endif %}
+
+<p><a href="{% url 'planification-create' %}" style="color: black">Return to planication form</a></p>
+{% endblock %}

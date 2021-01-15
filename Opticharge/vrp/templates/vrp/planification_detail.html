@@ -1,0 +1,58 @@
+
+
+{% extends "base_generic.html" %}
+{% load static %}
+{% block title %}Planification Detail{% endblock %}
+
+{% block content %}
+
+<!-- LEAFLET -->
+<link rel="stylesheet" href="{% static 'css/leaflet.css'%}">
+
+<!-- Make sure you put this AFTER Leaflet's CSS -->
+<script src="{% static 'js/leaflet.js' %}"></script>
+
+<div class="container">
+<div class="row">
+    <div class="col-sm">
+        <h2>Planification Details</h2>
+
+        <p>Planification Number: {{ object.id }}</p>
+        <p>Date: {{ object.date }} </p>
+        <p>Author: {{ object.author }}</p>
+        <p>Valide: {{ object.valide }}</p>
+        <p><a href="{% url 'planification-update' object.id %}" class="btn btn-small btn-info">Edit Planification</a>
+            <a href="{% url 'planification-delete' object.id %}" class="btn btn-small btn-danger">Delete Planification</a>
+        </p>
+
+    </div>
+    <div class="col-sm">
+
+        <table class="table table-striped">
+            <tr>
+                <th>Tour Number</th>
+                <th>vehicle </th>
+                <th>From</th>
+                <th>Customers</th>
+            </tr>
+            {% for object in object_list %}
+            <tr>
+                <td><a href="#" style="color:black">{{ object.date|date:"F d, Y"}}</a> </td>
+                <td>{{object.author}}</td>
+                <td>{{ object.valide }}</td>
+                <td><a href="#"><i class="fa fa-times-circle" style="color: red"></i></a>
+                    <a href="#"><i class="fa fa-info-circle" aria-hidden="true" style="color: darkorange"></i></a>
+                    <a href="#"><i class="fa fa-wrench"></i></a>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+</div>
+
+
+<p><a href="{% url 'planification-list' %}" style="color:black">Back to address list</a></p>
+
+{% endblock %}

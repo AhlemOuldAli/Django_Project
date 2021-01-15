@@ -1,0 +1,144 @@
+{%load static%}
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{%static 'hello/main.css'%}">
+
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    {%if title%}
+    <title> Opticharge Planner - {{title}}</title>
+    {%else%}
+    <title> Opticharge Planner</title>
+    {%endif%}
+</head>
+
+<body>
+<header class="site-header">
+    <nav class="navbar navbar-expand-md navbar-dark bg-info fixed-top">
+        <div class="container">
+            {%if user.is_authenticated%}
+            <a class="navbar-brand mr-4" href="{% url 'planification-list'%}">Opticharge Planner</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            {%else%}
+            <a class="navbar-brand mr-4" href="{% url 'login'%}">Opticharge Planner</a>
+            {%endif%}
+            <div class="collapse navbar-collapse" id="navbarToggle">
+                <div class="navbar-nav mr-auto">
+                    {%if user.is_authenticated%}
+                    <a class="nav-item nav-link" href="{% url 'planification-list'%}">Home</a>
+                    <a class="nav-item nav-link" href="{% url 'hello-about'%}">About</a>
+                    {%endif%}
+                </div>
+                <!-- Navbar Right Side -->
+                <div class="navbar-nav">
+                    {%if user.is_authenticated%}
+                    <a class="nav-item nav-link" href="{% url 'planification-create'%}">New Planification</a>
+                    <a class="nav-item nav-link" href="{% url 'logout'%}">Logout</a>
+                    <a class="nav-item nav-link" href="{% url 'profile'%}">Profile</a>
+                    {%else%}
+                    <a class="nav-item nav-link" href="{% url 'login'%}">Login</a>
+                    <a class="nav-item nav-link" href="{% url 'register'%}">Register</a>
+                    {%endif%}
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="row">
+        <div class="wrapper">
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                        <div class="col-ml-2">
+                            <img  class="rounded-circle account-img" src="/media/Logo/Opticharge_Logo.png" >
+                        </div>
+                </div>
+
+                    <li class="active">
+                            <li class="list-group-item list-group-item-mine">
+                                <a class="article-title" href="#"><span class="fa fa-home mr-3"></span>Dashbord</a>
+                            </li>
+                            <li class="list-group-item list-group-item-mine">
+                                <a class="article-title" href="{% url 'planification-list'%}"><span class="fa fa-list mr-3"></span> Planifications</a>
+                            </li>
+                            <li class="list-group-item list-group-item-mine">
+                                <a class="article-title" href="{% url 'planification-create'%}"><span class="fa fa-map-marker mr-3"></span> Tours</a>
+                            </li>
+                            <li class="list-group-item list-group-item-mine">
+                                <a class="article-title" href="{% url 'customer-list'%}"><span class="fa fa-user mr-3"></span> Customers</a>
+                            </li>
+                            <li class="list-group-item list-group-item-mine">
+                                <a class="article-title" href="{% url 'vehicle-list'%}"><span class="fa fa-truck mr-3"></span> Vehicles</a>
+                            </li>
+                            <li class="list-group-item list-group-item-mine">
+                                <a class="article-title" href="{% url 'planification-create'%}"><span class="fa fa-map mr-3"></span> Routes</a>
+                            </li>
+                            <li class="list-group-item list-group-item-mine">
+                                <a class="article-title" href="#"><span class="fa fa-users mr-3"></span> Users</a>
+                            </li>
+                    </li>
+
+
+            </nav>
+
+            <div class="col-md-8">
+            <div id="content">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+
+                        <button type="button" id="sidebarCollapse" class="btn btn-info">
+                            <i class="fas fa-align-left"></i>
+                            <span>Menu</span>
+                        </button>
+                        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="fas fa-align-justify"></i>
+                        </button>
+                    </div>
+                </nav>
+            </div>
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {%endif%}
+            {% block content %}{% endblock %}
+        </div>
+
+        </div>
+
+    </div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+
+    });
+</script>
+</body>
+</html>

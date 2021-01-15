@@ -1,0 +1,58 @@
+{% extends "helloworld/base.html"%}
+{%load static%}
+{% block title %}Planification list{% endblock %}
+
+{% block content %}
+<h2>Planification List</h2>
+<div>
+    <div class="btn float-right">
+        <a href="{% url 'planification-create' %}" class="btn btn-info float-right"  >Add Planification</a>
+    </div>
+     <br>
+
+    <table class="table table-striped">
+    <tr>
+        <th>Number</th>
+        <th>Date</th>
+        <th>Author </th>
+        <th>Valide</th>
+        <th>Operation</th>
+
+
+    </tr>
+
+    {% for object in object_list %}
+    <tr>
+        <td>{{object.id}}</td>
+        <td><a href="{%url 'planification-detail' object.id %}" style="color:black">{{ object.date|date:"F d, Y"}}</a> </td>
+        <td>{{object.author}}</td>
+        <td>{{ object.valide }}</td>
+        <td><a href="{% url 'planification-delete' object.id %}"><i class="fa fa-times-circle" style="color: red"></i></a>
+            <a href="{% url 'planification-detail' object.id %}"><i class="fa fa-info-circle" aria-hidden="true" style="color: darkorange"></i></a>
+            <a href="{% url 'planification-update' object.id %}"><i class="fa fa-wrench"></i></a>
+        </td>
+
+    </tr>
+    {% endfor %}
+</table>
+
+</div>
+{% if is_paginated %}
+{% if page_obj.has_previous%}
+<a class ="btn btn-outline-info mb-4" href="?page=1">First</a>
+<a class ="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+{% endif %}
+{% for num in page_obj.paginator.page_range %}
+{%if page_obj.number == num %}
+<a class ="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+<a class ="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+{% endif %}
+{% endfor %}
+{% if page_obj.has_next %}
+<a class ="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+<a class ="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+{% endif %}
+{% endif %}
+{% endblock content %}
+

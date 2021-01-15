@@ -1,0 +1,28 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% block title %}Edit Tour{% endblock %}
+
+{% block content %}
+<h1>Edit Tour</h1>
+
+<script src="{%static 'jquery-3.2.1.min.js' %}"></script>
+<script src="{%static 'datepicker/bootstrap-datepicker.js' %}"></script>
+<link href="{%static 'datepicker/css/bootstrap-datepicker3.css' %}" rel="stylesheet">
+
+
+        <form method="POST"> {% csrf_token %}
+            {{ form }}
+            <p><a href="{% url 'tour-list' %}" class="btn btn-danger" >Cancel</a>
+                <button class="btn btn-primary" type="submit">Save</button></p>
+        </form>
+
+
+<script>
+    $(document.getElementById("id_date")).datepicker({
+        format: 'yyyy-mm-dd'
+    });</script>
+
+
+
+{% endblock %}
+

@@ -1,0 +1,12 @@
+{% extends "users/login.html"%}
+<h2>You have been logged out</h2>
+{%block content%}
+    <div class="border-top pt-3">
+        <small class="text-muted">
+             <div class="container col-5">
+                 <a class="btn btn-outline-info" href="{% url 'login'%}" role="button"> Login Page</a>
+             </div>
+
+        </small>
+    </div>
+{% endblock content%}

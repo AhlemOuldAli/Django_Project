@@ -1,0 +1,3 @@
+[console_scripts]
+_test_python_toolbox = test_python_toolbox:invoke_tests
+

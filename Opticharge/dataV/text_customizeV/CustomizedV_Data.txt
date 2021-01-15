@@ -1,0 +1,14 @@
+Customized_Data
+VEHICLE
+VEHICLE NO.  REGISTRATION.   CAPACITY.    IDTYPEVEHICLE
+    0         405567            30              1
+    1         405567            40              2
+    2         405567            50              3
+    3         405567            10              1
+    4         405567            20              2
+    5         405567            10              3
+    6         405567            50              5
+    7         405567            60              6
+    8         405567            30              7
+    9         405567            40              9
+    10        405567            60              574

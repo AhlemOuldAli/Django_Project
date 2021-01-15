@@ -1,0 +1,49 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Edit Planification{% endblock %}
+
+{% block content %}
+
+<h1>Edit Planification</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <br><br>
+                    <p><button class="btn btn-info" href="#">Start Planning</button></p></p>
+                    <p><a href="{% url 'planification-list' %}" class="btn btn-danger" >Cancel</a>
+                        <button class="btn btn-info" type="submit">Save</button></p>
+                </form>
+        </div>
+        <div class="col-sm">
+
+            <table class="table table-striped">
+                <tr>
+                    <th>Tour Number</th>
+                    <th>vehicle </th>
+                    <th>From</th>
+                    <th>Customers</th>
+                </tr>
+                {% for object in object_list %}
+                <tr>
+                    <td><a href="#" style="color:black">{{ object.date|date:"F d, Y"}}</a> </td>
+                    <td>{{object.author}}</td>
+                    <td>{{ object.valide }}</td>
+                    <td><a href="#"><i class="fa fa-times-circle" style="color: red"></i></a>
+                        <a href="#"><i class="fa fa-info-circle" aria-hidden="true" style="color: darkorange"></i></a>
+                        <a href="#"><i class="fa fa-wrench"></i></a>
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <p><a href="{% url 'planification-list' %}" style="color: black">Back to planification list</a></p>
+</div>
+
+{% endblock %}
+

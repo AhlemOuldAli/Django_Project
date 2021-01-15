@@ -1,0 +1,24 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Edit Vehicle{% endblock %}
+
+{% block content %}
+<h1>Edit Vehicle</h1>
+<div class="container">
+    <div class="row">
+        <div class="col col-lg-2">
+            <form method="POST"> {% csrf_token %}
+                {{ form }}
+                <a href="{% url 'vehicle-list' %}" class="btn btn-danger" >Cancel</a>
+                <button class="btn btn-primary" type="submit">Save</button>
+
+            </form>
+        </div>
+    </div>
+    <p><a href="{% url 'vehicle-list' %}" style="color: black">Back to vehicle list</a></p>
+</div>
+
+
+
+{% endblock %}
+

@@ -1,0 +1,54 @@
+
+{% extends "base_generic.html" %}
+
+
+{% block title %}Vehicle List{% endblock %}
+
+{% block content %}
+<h2>Vehicle List</h2>
+<div class="btn float-right">
+<a href="{% url 'vehicle-create' %}" class="btn btn-info">Add Vehicle</a>
+<a href="#" class="btn btn-info">Import Vehicles</a>
+</div>
+<table class="table table-striped">
+    <tr>
+        <th>Marque </th>
+        <th>Registaration Number</th>
+        <th>Capacity</th>
+        <th>Type</th>
+        <th>Operation</th>
+
+    </tr>
+
+    {% for object in object_list %}
+    <tr>
+        <td><a href="{%url 'vehicle-detail' object.id %}" style="color:black">{{ object.marque }}</a> </td>
+        <td>{{ object.registrationnumber }}</td>
+        <td>{{ object.capacity }}</td>
+        <td>{{ object.type }}</td>
+        <td><a href="{% url 'vehicle-delete' object.id %}"><i class="fa fa-times-circle" style="color: red"></i></a>
+            <a href="{% url 'vehicle-detail' object.id %}"><i class="fa fa-info-circle" aria-hidden="true" style="color: darkorange"></i></a>
+            <a href="{% url 'vehicle-update' object.id %}"><i class="fa fa-wrench"></i></a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% if is_paginated %}
+{% if page_obj.has_previous%}
+<a class ="btn btn-outline-info mb-4" href="?page=1">First</a>
+<a class ="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+{% endif %}
+{% for num in page_obj.paginator.page_range %}
+{%if page_obj.number == num %}
+<a class ="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+<a class ="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+{% endif %}
+{% endfor %}
+{% if page_obj.has_next %}
+<a class ="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+<a class ="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+{% endif %}
+{% endif %}
+{% endblock %}
+

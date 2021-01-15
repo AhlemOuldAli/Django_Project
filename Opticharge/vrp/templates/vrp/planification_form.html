@@ -1,0 +1,72 @@
+{% extends "base_generic.html" %}
+{% load static%}
+{% block title %}Add Planification{% endblock %}
+
+{% block content %}
+<h1>Add Planification</h1>
+<div class="row">
+    <div class="col-sm">
+        <div class="btn float-right">
+            <a href="{% url 'uploaded_file_customer_url' %}" class="btn btn-info">Upload Customers</a>
+            <a href="{% url 'uploaded_file_vehicle_url' %}" class="btn btn-info">Upload Vehicles</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <form method="POST" enctype="multipart/form-data" action="{% url 'vrp_planning' %}" class="col-sm" id="planning_form" >
+            <div class="row">
+                    {% csrf_token %}
+                    <div class="col-sm" >
+                        <div class="modal-body">
+                            <p>Date: {{ form.date }} </p>
+                        </div>
+                        <div class="modal-body">
+                            <p>Choose Customer Instance:</p>
+                            <input type="file" enctype="multipart/form-data" name="file_customer" style="alignment: bottom" id="file_customer">
+                        </div>
+                        <div class="modal-body">
+                            <p>Choose Vehicle Instance:</p>
+                            <input type="file" enctype="multipart/form-data" name="file_vehicle" style="alignment: bottom" id="file_vehicle">
+                        </div>
+
+                    </div>
+                    <div  class="col-sm">
+
+                        <div class="modal-body">
+                            <p>Optimisation parameters:</p>
+                            <label for="population">Popolation size:</label>
+                            <input type="number" class="form-control" id="population" name="population" min="0">
+                        </div>
+                        <div class="modal-body">
+                            <label for="individual_size">Individual size:</label>
+                            <input type="number" class="form-control" id="individual_size" name="individual_size" min="0">
+                        </div>
+                        <div class="modal-body">
+                            <label for="number_generation">Generations : </label>
+                            <input type="number" class="form-control" id="number_generation" name="number_generation" min="0">
+                        </div>
+                        <div class="modal-body">
+                            <label for="crossover">Crossover probability : </label>
+                            <input type="number" class="form-control" step="0.01" id="crossover" name="crossover" default="0">
+                        </div>
+
+                        <div class="modal-body">
+                            <label for="mutation">Mutation probability : </label>
+                            <input type="number" class="form-control" step="0.01" id="mutation" name="mutation" default="0">
+                        </div>
+
+                    </div>
+            </div>
+        <div class="row">
+            <div class="col-sm">
+                <button type="submit" value="submit" class="btn btn-info" >Start planning</button>
+                <button class="btn btn-info" type="submit">Save</button></button>
+                <p><a href="{% url 'planification-list' %}" class="btn btn-danger" >Cancel</a>
+            </div>
+        </div>
+    </form>
+    </div>
+</div>
+
+{% endblock %}
+

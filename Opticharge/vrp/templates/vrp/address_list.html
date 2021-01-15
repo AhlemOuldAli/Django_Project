@@ -1,0 +1,60 @@
+
+{% extends "base_generic.html" %}
+
+
+{% block title %}Address list{% endblock %}
+
+{% block content %}
+<h2>Address List</h2>
+        <div class="btn float-right">
+            <a href="{% url 'address-create' %}" class="btn btn-info">Add Address</a>
+            <a href="#" class="btn btn-info">Import Adresses</a>
+        </div>
+
+<table class="table table-striped">
+    <tr>
+        <th>Name </th>
+        <th>Name </th>
+        <th>City</th>
+        <th>Street</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Operation</th>
+
+    </tr>
+
+    {% for object in object_list %}
+    <tr>
+        <td><a href="{%url 'address-detail' object.id %}" style="color:black">{{object.id}}</a> </td>
+        <td>{{ object.name }} </td>
+        <td>{{ object.city }}</td>
+        <td>{{ object.street }}</td>
+        <td>{{ object.latitude }}</td>
+        <td>{{ object.longitude }}</td>
+        <td><a href="{% url 'address-delete' object.id %}"><i class="fa fa-times-circle" style="color: red"></i></a>
+            <a href="{% url 'address-detail' object.id %}"><i class="fa fa-info-circle" aria-hidden="true" style="color: darkorange"></i></a>
+            <a href="{% url 'address-update' object.id %}"><i class="fa fa-wrench"></i></a>
+        </td>
+
+    </tr>
+    {% endfor %}
+</table>
+{% if is_paginated %}
+{% if page_obj.has_previous%}
+<a class ="btn btn-outline-info mb-4" href="?page=1">First</a>
+<a class ="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+{% endif %}
+{% for num in page_obj.paginator.page_range %}
+{%if page_obj.number == num %}
+<a class ="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+<a class ="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+{% endif %}
+{% endfor %}
+{% if page_obj.has_next %}
+<a class ="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+<a class ="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+{% endif %}
+{% endif %}
+{% endblock %}
+

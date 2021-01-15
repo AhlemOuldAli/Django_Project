@@ -1,0 +1,183 @@
+{% extends "base_generic.html" %}
+{% load static%}
+{% load crispy_forms_tags%}
+
+{%block content%}
+
+<div class="content-section">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4"> List of tours</legend>
+            <a href="{% url 'planification-create' %}" class="btn btn-info" style="float: right" >Replanning</a>
+
+        </fieldset>
+        <div class="container">
+        <div class="row">
+            <div style="float:left;margin-right:0px;width: 20%" >
+                <table id="myTable" class="table table-bordered table-striped" >
+                    <thead>
+                        <tr>
+                            <th>Tour Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {%for i in loaded_data %}
+                    <tr>
+                        <th>{{i}}</th>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div style="float: left;margin-right:0px;width: 20%">
+                <table class="table table-bordered table-striped" id="tableVehicle">
+                    <thead>
+                    <tr>
+                        <th>Vehicle </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {%for v in dv_t %}
+                    <tr>
+                        <th>{{v}}</th>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="float: left;width: 60%">
+                <table class="table table-bordered table-striped" id="tableCustomers">
+                    <thead>
+                    <tr>
+                        <th>Customers </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {%for c in df_t %}
+                    <tr>
+                        <th>{{c}}</th>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    </form>
+    <div class="col-sm">
+        <div  id="mapid" style="width: 100%; height: 600px"></div>
+    </div>
+</div>
+
+<!-- Jquery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<!-- Datatables -->
+<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<!-- Bootstrap -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+    var layout = '<"row export-button"B><"row"<"col-md-6 col-sm-12"l><"col-md-6 col-sm-12"f>><"row"<"col-sm-12 col-md-12 col-lg-12"rt>><"row"<"col-md-6 col-sm-12"i><"col-md-6 col-sm-12"p>>';
+    $(document).ready( function () {
+        $('#myTable').DataTable({
+            aging: true,
+            pagingType: "full_numbers",
+            scrollX: true,
+            //lengthChange : true,
+            searching: true,
+            ordering: true,
+            dom: layout,
+            autoWidth: true,
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: 'Excel',
+                    customizeData: function( data ) {
+                        $.post("/exportLogs", function(data) {
+                            // do nothing
+                        });
+                    }
+                }
+            ]
+        });
+    } );
+</script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"></link>
+<!-- LEAFLET -->
+<link rel="stylesheet" href="{% static 'css/leaflet.css'%}">
+<!-- Make sure you put this AFTER Leaflet's CSS -->
+<script src="{% static 'js/leaflet.js' %}"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+      integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+      crossorigin=""/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
+<script src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-map.js?key=lYrP4vF3Uk5zgTiGGuEzQGwGIVDGuy24"></script>
+<script src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-routing.js?key=lYrP4vF3Uk5zgTiGGuEzQGwGIVDGuy24"></script>
+
+<!-- Make sure you put this AFTER Leaflet's CSS -->
+<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+        integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+        crossorigin=""></script>
+
+{%if latitude %}
+<script type="text/javascript">
+    var mymap = L.map('mapid').setView([{{ 40.0 }}, {{ 50.0 }}], 12);
+    var StartMarker = {};
+    var EndMarker = {};
+
+    L.tileLayer( 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        subdomains: ['a','b','c'],
+        maxZoom:20
+    }).addTo( mymap );
+
+    var latitudelist= {{latitude}};
+    var longitudelist={{longitude}};
+    var polylinePoints = [];
+    for(var i=0; i<latitudelist.length; i++){
+        polylinePoints[i]=[];
+        for (var j=0; j<latitudelist[i].length; j++){
+                //console.log((latitudelist[i]));
+            (polylinePoints[i])[j]=[(latitudelist[i])[j],(longitudelist[i])[j]];
+             marker = new L.marker([(latitudelist[i])[j],(longitudelist[i])[j]])
+                .bindPopup("Tour ".concat(i.toString()))
+                .addTo(mymap);
+        }
+    }
+
+    console.log(polylinePoints)
+    var depart=[];
+    for(var i=0; i<latitudelist.length;i++){
+        depart[i]=[];
+        (depart[i])[0]=[
+            [40.0,50.0],
+            [(latitudelist[i])[0],(longitudelist[i])[0]]
+        ];
+    }
+
+    var greenIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+
+    marker = new L.marker([40.0,50.0], {icon: greenIcon})
+        .bindPopup("DEPART")
+        .addTo(mymap);
+
+    var polylinedepart=L.polyline(depart,{color:'green'}).addTo(mymap);
+    mymap.fitBounds(polylinedepart.getBounds());
+    var polyline = L.polyline(polylinePoints,{color:'green'}).addTo(mymap);
+    mymap.fitBounds(polyline.getBounds());
+</script>
+{% endif %}
+<p><a href="{% url 'address-list' %}" style="color: black">Back to address list</a></p>
+{% endblock content%}
